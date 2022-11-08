@@ -1,0 +1,22 @@
+version: "3.8"
+
+services:
+  jenkins-agent-main:
+    image: sohaibm/jenkins-agent-main
+    container_name: jenkins-agent-main
+    build:
+      context: .
+      # dockerfile: Dockerfile.dev
+    restart: always
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - /usr/bin/docker:/usr/bin/docker
+    ports:
+      - "23:22"
+    environment:
+      - JENKINS_AGENT_SSH_PUBKEY=ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQDOj9xEqARTOtzF61Ky2WjMTPOuS287RI11jzzGUyFecb1uLhmeLZWtA8yZSVUd2Lb34f1k8coHww6QcycwAKy+fH1cqUJ0JTM69Kcm/MbevRUeXy07Db+wlPNhQ+iX+3/AE5XFA8+T+CpYeavELZrGkSOw40LZOKqxrUDQi3q1uPcBei28ypgNCa3nTdPLKvYIdmB6jv791LiZj79eXKqGnv90ZL4uB4BGaaKidNmWrytL/SfxpJHdBLRqo/aQ4vy1xWkMti3c9IdkVHmLkCIOzU/mCCOAbIJdvQ1Huhn78Su4zl7+rJZowq18pH7PyRkhwsPeIXkrd4nKgGWjvEI4PeX43aLo/h3fzmWDZGkZ3kfGw2hbNFOQF9B/e79ItwbDZPjnXz7Rxpo021r46IKUoerxrGqWAaIHmcF2sSEJJ+mmRFKlqIQ46TQvRmyayQXVPpZ3MT9KPyymllaqci6962rycS8xvn7FD3g1J2QI8VzbXptDodcLGc8WlJzxUYc= dev@ubuntu-s-2vcpu-4gb-tor1-01
+
+networks:
+  default:
+    name: jenkins
+    external: true
