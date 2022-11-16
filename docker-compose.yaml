@@ -1,0 +1,30 @@
+version: '3.7'
+services:
+  jenkins:
+    image: sohaibm/jenkins-docker:latest
+    container_name: jenkins
+    build: .
+    user: root
+    restart: always
+    volumes:
+      - /var/jenkins_home:/var/jenkins_home
+      - /var/run/docker.sock:/var/run/docker.sock
+      - /usr/bin/docker:/usr/bin/docker
+      - /etc/letsencrypt/:/etc/letsencrypt/
+    ports:
+      - "50000:50000"
+
+  socat:
+    image: alpine/socat
+    command: ["tcp-listen:2375,fork,reuseaddr", "unix-connect:/var/run/docker.sock"]
+    container_name: socat
+    restart: always
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+    ports:
+      - "127.0.0.1:2376:2375"
+
+networks:
+  default:
+    name: comp229
+    external: true
