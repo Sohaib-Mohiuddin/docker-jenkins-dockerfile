@@ -13,6 +13,9 @@ services:
       - /etc/letsencrypt/:/etc/letsencrypt/
     ports:
       - "50000:50000"
+    networks:
+      nginx-custom_nginx_network:
+        ipv4_address: 172.25.0.7
 
   socat:
     image: alpine/socat
@@ -23,8 +26,14 @@ services:
       - /var/run/docker.sock:/var/run/docker.sock
     ports:
       - "127.0.0.1:2376:2375"
+    networks:
+      nginx-custom_nginx_network:
+        ipv4_address: 172.25.0.8
 
 networks:
+  nginx-custom_nginx_network:
+    driver: bridge
+    external: true
   default:
     name: comp229
     external: true
